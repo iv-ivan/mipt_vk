@@ -1,11 +1,3 @@
-//
-//  main.cpp
-//  3
-//
-//  Created by Ivan Ivashkovskii on 22.11.17.
-//  Copyright © 2017 Ivan Ivashkovskii. All rights reserved.
-//
-
 #include <iostream>
 #include <fstream>
 #include <cmath>
@@ -18,10 +10,9 @@ using namespace std;
 
 void get_force(set<pair<int, int>>& A, float (&x)[18659], float (&y)[18659], float (&f)[18659]) {
     for (int i = 0; i < 18659; ++i) {
-        f[i] = -1 * x[i];
+        f[i] = -0.000000001 * x[i];
     }
     for (int i = 0; i < 18658; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(4));
         //cerr << i << endl;
         for (int j = i + 1; j < 18659; ++j) {
             float f_temp = 0;
@@ -33,14 +24,14 @@ void get_force(set<pair<int, int>>& A, float (&x)[18659], float (&y)[18659], flo
             if (div == 0.0)
                 div = 0.00001;
             div = div * sqrt(div);
-            f_temp += dx/div;
+            f_temp += 1000 * dx/div;
             f[i] += f_temp;
             f[j] -= f_temp;
         }
     }
 }
 
-int main(int argc, const char * argv[]) {
+int main() {
     std::ifstream infile("A.mat");
     int a, b;
     set<pair<int, int>> A;
@@ -70,7 +61,7 @@ int main(int argc, const char * argv[]) {
         y[i] = z;
         ++i;
     }
-    float alpha = 0.1;//0.00001;
+    float alpha = 0.01;//0.00001;
     float tmp_sum_fx(0), tmp_sum_fy(0);
     for (int i = 0; i < 100000; ++i) {
         tmp_sum_fx = 0;
